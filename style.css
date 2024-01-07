@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  background: #120546;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.select__box {
+  margin-top: 150px;
+  width: 380px;
+  position: relative;
+}
+.select__option {
+  position: relative;
+}
+.select__option input {
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 22px;
+  padding: 15px 20px;
+  border: 0;
+  outline: 0;
+}
+.select__option::after {
+  position: absolute;
+  content: "";
+  border-top: 12px solid #000;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  right: 20px;
+  margin-top: 22px;
+}
+
+.select__content {
+  background-color: #fff;
+  position: absolute;
+  color: #000;
+  margin-top: 15px;
+  width: 100%;
+  z-index: 999;
+  padding: 15px;
+  display: none;
+}
+
+.select__search input {
+  width: 100%;
+  font-size: 17px;
+  padding: 15px;
+  outline: 0;
+  border: 1px solid #b3b3b3;
+  border-radius: 5px;
+}
+
+.select__options {
+  margin-top: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.select__options li {
+  padding: 10px 15px;
+  font-size: 21px;
+  cursor: pointer;
+  border-bottom: 1px solid gray;
+  transition: all 0.4s ease;
+}
+.select__options li:hover {
+  background-color: #f2f2f2;
+}
+
+.select__box.active .select__content {
+  display: block;
+}
+.select__box.active .select__option::after {
+  transform: rotate(-180deg);
+}

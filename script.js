@@ -13,23 +13,24 @@ optionsList.forEach((option) => {
   option.addEventListener("click", () => {
     soValue.value = option.textContent;
     selectBox.classList.remove("active");
-    optionsList.forEach((op) => op.removeAttribute("style"));
     optionSearch.value = "";
+    optionsList.forEach((op) => op.removeAttribute("style"));
   });
 });
 
-optionSearch.addEventListener("keyup", () => {
-  const filter = optionSearch.value.toUpperCase();
-  const li = options.getElementsByTagName("li");
+optionSearch.addEventListener("input", () => {
+  const searchTerm = optionSearch.value.toLowerCase();
 
-  for (let i = 0; i < li.length; i++) {
-    const liCount = li[i];
-    const textValue = liCount.textContent;
-
-    if (textValue.toUpperCase().indexOf(filter) > -1) {
-      liCount.removeAttribute("style");
-    } else {
-      liCount.style.display = "none";
-    }
+  if (searchTerm !== "") {
+    optionsList.forEach((op) => {
+      const optionText = op.textContent.toLowerCase();
+      if (optionText.includes(searchTerm)) {
+        op.removeAttribute("style");
+      } else {
+        op.style.display = "none";
+      }
+    });
+  } else {
+    optionsList.forEach((op) => op.removeAttribute("style"));
   }
 });

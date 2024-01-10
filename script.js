@@ -1,36 +1,71 @@
-const selectBox = document.querySelector(".select__box");
-const selectOption = document.querySelector(".select__option");
-const soValue = document.querySelector("#soValue");
-const optionSearch = document.querySelector("#optionSearch");
-const options = document.querySelector(".select__options");
-const optionsList = document.querySelectorAll(".select__options li");
+document.addEventListener("DOMContentLoaded", () => {
+  const selectBox = document.querySelector(".select__box");
+  const selectOption = document.querySelector(".select__option");
+  const selectValueEl = document.querySelector("#selectValue");
+  const searchEl = document.querySelector("#search");
+  const optionsList = document.querySelectorAll(".select__options li");
+  const selectContent = document.querySelector(".select__content");
 
-selectOption.addEventListener("click", () => {
-  selectBox.classList.toggle("active");
-});
+  function selectContentPosition() {
+    var windowHeight = window.innerHeight;
+    var boxBottom = selectBox.getBoundingClientRect().bottom;
+    var contentHeight = selectContent.offsetHeight;
 
-optionsList.forEach((option) => {
-  option.addEventListener("click", () => {
-    soValue.value = option.textContent;
-    selectBox.classList.remove("active");
-    optionSearch.value = "";
-    optionsList.forEach((op) => op.removeAttribute("style"));
-  });
-});
+    if (windowHeight - boxBottom < contentHeight) {
+      selectContent.classList.add("active");
+    } else {
+      selectContent.classList.remove("active");
+    }
 
-optionSearch.addEventListener("input", () => {
-  const searchTerm = optionSearch.value.toLowerCase();
-
-  if (searchTerm !== "") {
-    optionsList.forEach((op) => {
-      const optionText = op.textContent.toLowerCase();
-      if (optionText.includes(searchTerm)) {
-        op.removeAttribute("style");
-      } else {
-        op.style.display = "none";
-      }
-    });
-  } else {
-    optionsList.forEach((op) => op.removeAttribute("style"));
+    // if (selectBox.classList.contains("active")) {
+    //   if (windowHeight - boxBottom < contentHeight) {
+    //     // selectContent.style.top = -contentHeight + "px";
+    //     selectContent.classList.add("active");
+    //   }
+    // } else {
+    //   selectContent.classList.remove("active");
+    // }
   }
+
+  selectContentPosition();
+
+  selectOption.addEventListener("click", () => {
+    selectBox.classList.toggle("active");
+    selectContentPosition();
+  });
+
+  optionsList.forEach((option) => {
+    option.addEventListener("click", () => {
+      selectValueEl.value = option.textContent;
+      selectBox.classList.remove("active");
+      searchEl.value = "";
+      setTimeout(
+        () => optionsList.forEach((list) => list.removeAttribute("style")),
+        500
+      );
+    });
+  });
+
+  searchEl.addEventListener("input", () => {
+    const searchTerm = searchEl.value.toUpperCase();
+
+    if (searchTerm !== "") {
+      optionsList.forEach((list) => {
+        const textValue = list.textContent.toUpperCase();
+        if (textValue.includes(searchTerm)) {
+          list.removeAttribute("style");
+        } else {
+          list.style.display = "none";
+        }
+      });
+    } else {
+      optionsList.forEach((list) => list.removeAttribute("style"));
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!selectBox.contains(event.target)) {
+      selectBox.classList.remove("active");
+    }
+  });
 });
